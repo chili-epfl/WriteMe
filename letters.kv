@@ -1,0 +1,77 @@
+<Painter@Widget>:
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 0.5
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<LetterBox@BoxLayout>:
+    orientation: 'vertical'
+    spacing: 5
+    padding: 5
+
+    Painter:
+        id: letter_painter
+
+    Button:
+        size_hint_y: 0.2
+        background_color: 1,1,1,0.3
+        on_release: letter_painter.clear_letter()
+        Image:
+            on_size: self.center = self.parent.center
+            center: self.parent.center
+            size: 40, 40
+            source: 'eraser.png'
+            allow_stretch: True
+
+BoxLayout:
+
+    orientation: 'vertical'
+    spacing: 5
+    padding: 5
+
+    canvas:
+        Color:
+            rgb: 1, 1, 1
+        Rectangle:
+            source: 'data/images/background.jpg'
+            size: self.size
+
+
+    Image:
+        id: word
+        allow_stretch: True
+        source: "words/cow.png"
+
+    BoxLayout:
+        size_hint_y: None
+        spacing: 10
+        height: 300
+
+        LetterBox:
+        LetterBox:
+        LetterBox:
+        LetterBox:
+
+    BoxLayout:
+        size_hint_y: None
+        height: 100
+
+        Label:
+            font_size: 24
+            text: "Next/Suivant"
+
+        Button:
+            size_hint_x: 0.2
+            background_color: 1,1,1,0
+            on_release: app.next_word()
+            Image:
+                on_size: self.center = self.parent.center
+                center: self.parent.center
+                source: "next.png"
+
+
+
