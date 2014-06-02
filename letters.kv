@@ -1,11 +1,13 @@
 <Painter@Widget>:
 
+    letter: None
+
     canvas:
         Color:
             rgba: 1, 1, 1, 0.5
         Rectangle:
-            pos: self.pos
-            size: self.size
+            pos: (self.x + self.width * 0.1, self.y + self.height * 0.1)
+            size: (self.width * 0.8, self.height * 0.8)
 
 
 <LetterBox@BoxLayout>:
@@ -27,12 +29,71 @@
             source: 'eraser.png'
             allow_stretch: True
 
-BoxLayout:
+<IdScreen>:
+    BoxLayout:
 
-    orientation: 'vertical'
-    spacing: 5
-    padding: 5
+        orientation: 'vertical'
+        spacing: '50dp'
+        padding: '50dp'
 
+        Label:
+            size_hint_y: 0.2
+            font_size: '24sp'
+            text: "I'am..."
+        Painter:
+            size_hint_y: 0.6
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+
+            Label:
+                font_size: '24sp'
+                text: "My age: " + str(int(age.value))
+
+            Slider:
+                id: age
+                min: 4
+                max: 15
+                value: 6
+                step: 1
+
+        BoxLayout:
+            size_hint_y: None
+            height: 100
+
+            Label:
+                font_size: '24sp'
+                text: "Let's start!"
+
+            Button:
+                size_hint_x: 0.3
+                background_color: 1,1,1,0
+                on_press: root.manager.current = 'select'
+                Image:
+                    on_size: self.center = self.parent.center
+                    center: self.parent.center
+                    allow_stretch: True
+                    source: "next.png"
+
+<Word@Image>:
+    on_size: self.center = self.parent.center
+    center: self.parent.center
+    allow_stretch: True
+
+<WordButton@Button>:
+    size_hint: None, 0.3
+    background_color: 1,1,1,0.3
+    on_release: app.switchto(self)
+    source: None
+    name: ""
+    Word:
+        id: image
+        size: (self.parent.width * 0.9, self.parent.height * 0.9)
+        source: self.parent.source
+
+
+
+<SelectScreen>:
     canvas:
         Color:
             rgb: 1, 1, 1
@@ -40,38 +101,57 @@ BoxLayout:
             source: 'data/images/background.jpg'
             size: self.size
 
+    ScrollView:
+        do_scroll_x: False
+        StackLayout:
+            #size_hint: 1, None
+            height: self.minimum_height
+            spacing: "10dp"
+            padding: "20dp"
+            id: gridofwords
 
-    Image:
-        id: word
-        allow_stretch: True
-        source: "words/cow.png"
 
+<DrawScreen>:
     BoxLayout:
-        size_hint_y: None
-        spacing: 10
-        height: 300
 
-        LetterBox:
-        LetterBox:
-        LetterBox:
-        LetterBox:
+        orientation: 'vertical'
+        spacing: 5
+        padding: 5
 
-    BoxLayout:
-        size_hint_y: None
-        height: 100
+        canvas:
+            Color:
+                rgb: 1, 1, 1
+            Rectangle:
+                source: 'data/images/background.jpg'
+                size: self.size
 
-        Label:
-            font_size: 24
-            text: "Next/Suivant"
 
-        Button:
-            size_hint_x: 0.2
-            background_color: 1,1,1,0
-            on_release: app.next_word()
-            Image:
-                on_size: self.center = self.parent.center
-                center: self.parent.center
-                source: "next.png"
+        Word:
+            id: current_letter
+
+        BoxLayout:
+            id: letters_container
+            size_hint_y: None
+            spacing: 10
+            height: "7cm"
+
+        BoxLayout:
+            size_hint_y: None
+            height: 100
+
+            Label:
+                font_size: '24sp'
+                text: "Next/Suivant"
+
+            Button:
+                size_hint_x: 0.2
+                background_color: 1,1,1,0
+                on_press: root.manager.current = 'select'
+                Image:
+                    on_size: self.center = self.parent.center
+                    center: self.parent.center
+                    allow_stretch: True
+                    source: "next.png"
 
 
 
